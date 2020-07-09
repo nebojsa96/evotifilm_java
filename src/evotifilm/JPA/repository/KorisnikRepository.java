@@ -16,13 +16,11 @@ public class KorisnikRepository {
 	}
 	
 	public static Korisnik authenticate(String korisnickoIme, String sifra) {
-		em.getTransaction().begin();
-		
 		Query query = em.createQuery("SELECT k FROM Korisnik k WHERE k.korisnicko_ime = :korisnickoIme and k.sifra = :sifra");
 		query.setParameter("korisnickoIme", korisnickoIme);
 		query.setParameter("sifra", sifra);
 		List<Korisnik> res = query.getResultList();		
-		em.getTransaction().commit();
+		
 		if(res.size()>0)
 			return res.get(0);
 		return null;

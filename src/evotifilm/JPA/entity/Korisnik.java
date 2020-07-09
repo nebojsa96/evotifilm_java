@@ -1,6 +1,7 @@
 package evotifilm.JPA.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -8,6 +9,7 @@ import javax.persistence.Table;
 @Table(name="korisnik")
 public class Korisnik {
 	@Id
+	@GeneratedValue
 	private int id;
 	private String korisnicko_ime;
 	private String sifra;
@@ -15,8 +17,20 @@ public class Korisnik {
 	private String email;
 	private String tip;
 	
-	public Korisnik() {};
+	public Korisnik() {
+		
+	};
 	
+	public Korisnik(int id, String korisnicko_ime, String sifra, String puno_ime, String email, String tip) {
+		super();
+		this.id = id;
+		this.korisnicko_ime = korisnicko_ime;
+		this.sifra = sifra;
+		this.puno_ime = puno_ime;
+		this.email = email;
+		this.tip = tip;
+	}
+
 	public int getId() {
 		return id;
 	}

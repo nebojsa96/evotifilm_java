@@ -16,12 +16,12 @@
 	else {
 		Korisnik k = KorisnikRepository.authenticate(kb.getKorisnickoIme(),kb.getSifra());
 		if(k!=null){
-	session.setAttribute("korisnik", k.getKorisnickoIme());
-	session.setAttribute("tip", k.getTip());
-	response.sendRedirect("page_home.jsp");
-		} else {		
-	session.setAttribute("msg_error", "Pogresno korisnicko ime/lozinka");
-	response.sendRedirect("page_login.jsp");		
+			session.setAttribute("korisnik", k.getKorisnickoIme());
+			session.setAttribute("tip", k.getTip());
+			response.sendRedirect("page_home.jsp");
+				} else {		
+			session.setAttribute("msg_error", "Pogresno korisnicko ime/lozinka");
+			response.sendRedirect("page_login.jsp");		
 		}
 	}
 %>

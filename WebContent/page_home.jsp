@@ -7,19 +7,15 @@
 <%@page import="evotifilm.JPA.entity.Zanr"%>
 <%@page import="evotifilm.JPA.repository.FilmRepository"%>
 
-<%@ include file="func_auth_guard.jsp" %>  
+<%@ include file="func_auth_guard.jsp" %>
+<%@ include file="func_init_admin.jsp" %>  
 <%@ include file="func_messages.jsp" %>  
 
 <%!
 	List<Film> fList;
-	boolean admin;
 %>   
 <%		
 	fList = FilmRepository.findAll();
-	admin = false;
-	if(session.getAttribute("tip").equals("admin")) {
-		admin = true;
-	}
 %>
 
 <!DOCTYPE html>
@@ -27,40 +23,78 @@
 <head>
 	<meta charset="UTF-8">
 	<title>EVOTIFILM</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/jquery-3.5.1.slim.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </head>
 <body class="page-home">
-	<h1>Dobrodošao <%= session.getAttribute("korisnik") %>
-	<span style="color: <%= admin ? "red" : "blue"%>;">( <%= session.getAttribute("tip") %> )</span></h1> 
-	<h1 style="font-size: 72px;">EVOTIFILM</h1>
+	<%@ include file="layout_header.jsp" %> 
 	
 	<p class="msg-err"><%= msgError %>
 	<p class="msg-succ"><%= msgSuccess %>
 	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2 glavni-meni">
+		<div class="row">
+			<div class="col-4">
+				<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="page_home.jsp">Početna<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="page_chat.jsp">Čet soba</a>
+				</li>
+				<% if(admin) { %>
+				<li class="nav-item active">
+					<a class="nav-link" href="page_korisnici.jsp" style="color:red;">Korisnici</a>
+				</li>
+				<% } %>
+
+		    </ul>
+				
+		 	</div>
+			 <div class="col-4">
+			 	<form class="form-inline my-2 my-lg-0 d-flex justify-content-center filter" action="">
+				      <input class="form-control mr-sm-2" type="text" placeholder="Traži film">
+				      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Traži</button>
+			    </form>
+			 </div>
+			 <div class="col-4">
+			 	<ul class="navbar-nav d-flex flex-row-reverse">
+			 		<li class="nav-item">
+				    	<a class="nav-link" href="func_logout.jsp">Odjavi se</a>
+				    </li>
+			 	</ul>
+			 </div>
+		</div>
+	</nav>
 	
-	<form action="func_logout.jsp" method="post"><button>ODJAVA</button></form>
-	<hr style="margin-top: 50px" />
+	
 	<% if(admin){ %>
-		<a href="page_film_detalji.jsp?id=-1" style="color: red; font-size: 20px;">DODAJ FILM</a>
-		<a href="page_korisnici.jsp" style="color: red; font-size: 20px;">KORISNICI</a>
+	<button type="submit" class="btn btn-outline-primary btn-lg btn-block m-auto" onclick="dodajFilmClick()" style="width:80%;">
+		DODAJ FILM
+	</button>		
 	<% } %>
-	<a href="page_chat.jsp" style="color: blue; font-size: 20px">ČET SOBA</a>
-	<table border="solid" style="margin-top: 10px;">
-		<tr>
-			<th>Naziv</th>
-			<th>Godina</th>
-			<th>Žanrovi</th>
-			<th>Kratak opis</th>
-			<th>Ocena</th>
-			<% if(admin){ %> <th>Obriši</th> <% } %>
-		</tr>
-		<%
-			if(fList!=null) {
-				for(Film f : fList)
-				{
-		%>
+	<table class="table table-hover" style="margin-top: 10px;">
+		<thead>
 			<tr>
- 				<td style="width: 200px;"><a href="page_film_detalji.jsp?id=<%=f.getId()%>"><%= f.getNaziv() %></a></td>
+				<th>Naziv</th>
+				<th>Godina</th>
+				<th>Žanrovi</th>
+				<th>Kratak opis</th>
+				<th>Ocena</th>
+				<% if(admin){ %> <th>Obriši</th> <% } %>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+				if(fList!=null) {
+					for(Film f : fList)
+					{
+			%>
+			<tr onclick="filmClick(<%=f.getId()%>)">
+ 				<td style="width: 200px;"><%= f.getNaziv() %></td>
 				<td style="text-align: center;"><%= f.getGodina() %></td>
 				<td><%
 					Set<Zanr> zanrovi = f.getZanrovi();
@@ -74,14 +108,23 @@
 				<% if(admin){ %> 
 				<td style="text-align: center;"><a href="rest_delete_film.jsp?id=<%=f.getId()%>" style="color: red;">X</a></td><% } %>
 			</tr>
-		<% 	
-				}
-			} 
-		%>	
-	
+			<% 	
+					}
+				} 
+			%>	
+		</tbody>
 	
 	</table>
 
 	
 </body>
+<script>
+	function filmClick(id){
+		location.assign("page_film_detalji.jsp?id="+id);
+	}
+	function dodajFilmClick(id){
+		location.assign("page_film_detalji.jsp?id=-1");
+	}
+	
+</script>
 </html>

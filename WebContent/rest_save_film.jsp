@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.io.File"%>
@@ -12,6 +13,7 @@
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <%@page import="org.apache.commons.io.FilenameUtils"%>
+<%@page import="java.nio.file.Files"%>
 
 
 <%@ include file="func_auth_guard.jsp" %>  
@@ -29,19 +31,17 @@
         try {
         	film = new Film();
         	zList = ZanrRepository.findAll();
+        	imageParts = new ArrayList<FileItem>();
             List <FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for(FileItem item : multiparts){
                 if(!item.isFormField()){
-                	if(imageParts==null)
-                		imageParts = new ArrayList<FileItem>();
                 	imageParts.add(item);
-                	
                 } else {
                 	String fieldName = item.getFieldName();
                 	if(fieldName.equals("id"))
                 		film.setId(Integer.parseInt(item.getString()));
                 	if(fieldName.equals("naziv"))
-                		film.setNaziv(item.getString());
+                		film.setNaziv(item.getString("UTF-8"));
                 	if(fieldName.equals("godina"))
                 		film.setGodina(Integer.parseInt(item.getString()));
                 	if(fieldName.equals("zanroviIds")){
@@ -53,19 +53,19 @@
                 		}
                 	}
                 	if(fieldName.equals("trajanje"))
-                		film.setTrajanje(item.getString());
+                		film.setTrajanje(item.getString("UTF-8"));
                 	if(fieldName.equals("ocena"))
                 		film.setOcena(Integer.parseInt(item.getString()));
                 	if(fieldName.equals("ocenaImdb"))
                 		film.setOcenaImdb(Float.parseFloat(item.getString()));
                 	if(fieldName.equals("imdb"))
-                		film.setImdb(item.getString());
+                		film.setImdb(item.getString("UTF-8"));
                 	if(fieldName.equals("kratakOpis"))
-                		film.setKratakOpis(item.getString());
+                		film.setKratakOpis(item.getString("UTF-8"));
                 	if(fieldName.equals("opis"))
-                		film.setOpis(item.getString());
+                		film.setOpis(item.getString("UTF-8"));
                 	if(fieldName.equals("zakljucak"))
-                		film.setZakljucak(item.getString());
+                		film.setZakljucak(item.getString("UTF-8"));
                 		
                 }
             }
@@ -80,14 +80,21 @@
  
 	
 	FilmRepository.save(film);
+	boolean deletedOld = false;
 	if(film!=null){
 		for(FileItem item : imageParts) {
 			File file =  new File(item.getName());
             String name = file.getName();
             String ext = FilenameUtils.getExtension(item.getName());
-            item.write( new File(getServletContext().getInitParameter("upload.location") + File.separator + film.getId() + "." + ext));
+            file = new File(getServletContext().getInitParameter("upload.location") + File.separator + film.getId() + "." + ext);
+            if(!deletedOld){
+            	Files.deleteIfExists(file.toPath());
+            	deletedOld = true;
+            }
+            item.write(file);
+         
 		}
-		session.setAttribute("msg_success", "Film je uspešno kreiran");
+		session.setAttribute("msg_success", "Film je uspešno sačuvan");
 	}
 	response.sendRedirect("page_film_detalji.jsp?id="+film.getId());
 %>

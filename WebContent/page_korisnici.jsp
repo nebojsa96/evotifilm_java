@@ -11,23 +11,16 @@
 
 
 
-<%@ include file="func_auth_guard.jsp" %>  
+<%@ include file="func_auth_guard.jsp" %> 
+<%@ include file="func_init_admin.jsp" %>
+<%@ include file="func_admin_guard.jsp" %> 
 <%@ include file="func_messages.jsp" %>  
 
 <%!
 	IKorisnikRMI server;
 	List<Korisnik> kList;
-	boolean admin;
 %>   
 <%		
-	admin = false;
-	if(session.getAttribute("tip").equals("admin")) {
-		admin = true;
-	}
-	if(!admin) {
-		response.sendRedirect("page_home.jsp");
-		return;
-	}
 	
 	server = (IKorisnikRMI)Naming.lookup("rmi://localhost:1098/KorisnikRMI");
 	kList = server.findAll();
@@ -39,12 +32,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>EVOTIFILM</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/jquery-3.5.1.slim.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </head>
 <body class="page-home">
-	<h1>Dobrodošao <%= session.getAttribute("korisnik") %>
-	<span style="color: <%= admin ? "red" : "blue"%>;">( <%= session.getAttribute("tip") %> )</span></h1> 
-	<h1 style="font-size: 72px;">EVOTIFILM</h1>
+	<%@ include file="layout_header.jsp" %> 
 	
 	<p class="msg-err"><%= msgError %>
 	<p class="msg-succ"><%= msgSuccess %>

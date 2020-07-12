@@ -10,4 +10,8 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>page_login.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+  	<param-name>upload.location</param-name>
+  	<param-value>C:/upload/evotifilm/filmovi</param-value>
+  </context-param>
 </web-app>

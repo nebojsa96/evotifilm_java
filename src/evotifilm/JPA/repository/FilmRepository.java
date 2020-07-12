@@ -1,13 +1,19 @@
 package evotifilm.JPA.repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+
 import evotifilm.JPA.MainEntityManager;
 import evotifilm.JPA.entity.Film;
+import evotifilm.JPA.entity.Zanr;
 
 public class FilmRepository {
 	static EntityManager em;
@@ -40,7 +46,11 @@ public class FilmRepository {
 	public static Optional<Film> save(Film f) {
 		em.getTransaction().begin();
 
-		em.persist(f);
+		if(findById(f.getId()).isEmpty()){
+			em.persist(f);
+		} else {
+			em.merge(f);
+		}
 
 		em.getTransaction().commit();
 		
@@ -61,6 +71,23 @@ public class FilmRepository {
 			
 			em.getTransaction().commit();
 		}
+	}
+	
+	public static void addZanrFromZanrIds(Film f) {
+		if(f.getZanroviIds().length==0)
+			return;
+		List<Zanr> zList = ZanrRepository.findAll();
+		List<Integer> zIdsList = new ArrayList<>();
+		for(int zid : f.getZanroviIds()) { zIdsList.add(zid); }
+		Set<Zanr> zanrovi = new HashSet<Zanr>();
+		
+		for(Zanr z : zList){
+			if(zIdsList.contains(z.getId())) {
+				zanrovi.add(z);
+			}
+		}
+		f.setZanrovi(zanrovi);
+		
 	}
 
 }

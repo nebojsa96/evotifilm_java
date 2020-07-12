@@ -12,11 +12,14 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<h1>PRIJAVA </h1>
+	<h1>REGISTRACIJA </h1>
 	<p class="msg-err"><%= msgError %>
 	<p class="msg-succ"><%= msgSuccess %>
-	<form action="rest_login" method="post">
+	<form action="rest_register" method="post">
 		<table>
+			<tr>
+				<td>Puno ime i prezime: </td><td><input type="text" name="punoIme" required /></td>
+			</tr>
 			<tr>
 				<td>Korisničko ime: </td><td><input type="text" name="korisnickoIme" required /></td>
 			</tr>
@@ -24,10 +27,13 @@
 				<td>Šifra: </td><td><input type="password" name="sifra" required /></td>
 			</tr>
 			<tr>
-				<td></td><td>
-							<a href="page_register.jsp" style="color: blue;">REGISTRACIJA</a><br/>
-							<input type="submit" value="PRIJAVA" />
-						</td>
+				<td>Ponovljena šifra: </td><td><input type="password" name="sifra2" required /></td>
+			</tr>
+			<tr>
+				<td>Email: </td><td><input type="text" name="email" required /></td>
+			</tr>
+			<tr>
+				<td></td><td><input type="submit" value="REGISTRACIJA" /></td>
 			</tr>
 		</table>
 	

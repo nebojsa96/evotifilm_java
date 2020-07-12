@@ -1,0 +1,53 @@
+td { min-width: 100px; }
+
+.msg-succ {
+	color: green;
+}
+
+.msg-err {
+	color: red;
+}
+
+.page-home table {
+	width: 80%;
+	margin:auto;
+}
+
+.page-film-detalji table {
+	width: 80%;
+	margin:auto;
+}
+.page-film-detalji table input {
+	width: calc(100% - 8px);
+}
+.page-film-detalji table .zanr-multiselect {
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+}
+.page-film-detalji table select {
+	width: calc(100% - 3px);
+    height: 93%;
+}
+.page-film-detalji table textarea {
+	width: calc(100% - 8px);
+}
+
+.page-film-detalji .img-wrapper {
+	width: 480px;
+	height: 480px;
+	position: relative;
+} 
+.page-film-detalji .img-wrapper img {
+	width: 100%;
+	height: 100%;
+}
+.page-film-detalji .img-wrapper input {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: white;
+    opacity: 0.9;
+    width: 100%;
+} 

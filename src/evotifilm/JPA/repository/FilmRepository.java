@@ -41,6 +41,16 @@ public class FilmRepository {
 		return fList;
 	}
 	
+	public static List<Film> findByNaziv(String naziv) {
+		List<Film> fList = null;
+		
+		Query qry = em.createQuery("SELECT f FROM Film f WHERE LOWER(f.naziv) LIKE LOWER(:kljuc) ");
+		qry.setParameter("kljuc", "%"+naziv+"%");
+		fList = qry.getResultList();
+		
+		return fList;
+	}
+	
 	
 	
 	public static Optional<Film> save(Film f) {

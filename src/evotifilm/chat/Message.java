@@ -4,6 +4,7 @@ public class Message {
 	private String from;
     private String to;
     private String content;
+    private String[] usersList;
 
     @Override
     public String toString() {
@@ -33,4 +34,12 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
+
+	public String[] getUsersList() {
+		return usersList;
+	}
+
+	public void setUsersList(String[] usersList) {
+		this.usersList = usersList;
+	}
 }

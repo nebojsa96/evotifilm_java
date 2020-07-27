@@ -33,6 +33,7 @@
 	<meta charset="UTF-8">
 	<title>EVOTIFILM</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-3.5.1.slim.min.js"></script>
 	<script src="js/popper.min.js"></script>
@@ -44,41 +45,81 @@
 	<p class="msg-err"><%= msgError %>
 	<p class="msg-succ"><%= msgSuccess %>
 	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2 glavni-meni">
+		<div class="row">
+			<div class="col-4">
+				<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="page_home.jsp">Početna<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="page_chat.jsp">Čet soba</a>
+				</li>
+				<% if(admin) { %>
+				<li class="nav-item active">
+					<a class="nav-link" href="page_korisnici.jsp" style="color:red;">Korisnici</a>
+				</li>
+				<% } %>
+
+		    </ul>
+				
+		 	</div>
+			 <div class="col-4"></div>
+			 <div class="col-4">
+			 	<ul class="navbar-nav d-flex flex-row-reverse">
+			 		<li class="nav-item">
+				    	<a class="nav-link" href="func_logout.jsp">Odjavi se</a>
+				    </li>
+			 	</ul>
+			 </div>
+		</div>
+	</nav>
 	
-	<form action="func_logout.jsp" method="post"><button>ODJAVA</button></form>
-	<hr style="margin-top: 50px" />
-	
-	<a href="page_home.jsp" style="color: blue; font-size: 16px;">POČETNA</a>
-	<table border="solid" style="margin-top: 10px;">
-		<tr>
-			<th>Ime i prezime</th>
-			<th>Korisničko ime</th>
-			<th>Email</th>
-			<th>Tip (Promeni)</th>
-			<th>Obriši</th>
-		</tr>
+	<table class="table mt-2"">
+		<thead>
+			<tr>
+				<th>Ime i prezime</th>
+				<th>Korisničko ime</th>
+				<th>Email</th>
+				<th class="text-center">Tip (Promeni)</th>
+				<th class="text-center">Obriši</th>
+			</tr>
+		</thead>
+		<tbody>
 		<%
 			if(kList!=null) {
 				for(Korisnik k : kList)
 				{
 		%>
 				<tr>
-	 				<td style="width: 200px;"><%= k.getPunoIme() %></td>
-					<td style="text-align: center;"><%= k.getKorisnickoIme() %></td>
+	 				<td ><%= k.getPunoIme() %></td>
+					<td ><%= k.getKorisnickoIme() %></td>
 					<td><%= k.getEmail() %></td>
-					<td style="text-align: center;">
-						<a href="rest_type_korisnik?id=<%=k.getId()%>&tip=<%= k.getTip().equals("admin") ? "korisnik" : "admin" %>" style="color:red;"><%= k.getTip()%></a>
+					<td class="text-center">
+						<span class="badge badge-pill badge-<%= k.getTip().equals("admin") ? "primary" : "light" %>" style="cursor: pointer;"
+							 onclick="tipClick(<%=k.getId()%>,<%= k.getTip().equals("admin") ? "'korisnik'" : "'admin'" %>)">
+							<%= k.getTip()%>
+						</span>
 					</td>
-					<td style="text-align: center;"><a href="rest_delete_korisnik?id=<%=k.getId()%>" style="color: red;">X</a></td>
+					<td class="text-center"><i class="far fa-trash-alt text-danger text-danger" onclick="deleteClick(<%=k.getId()%>)" style="cursor: pointer;"></i></td>
 				</tr>
 		<%
 				} 
 			}
 		%>	
-	
+		</tbody>
 	
 	</table>
 
 	
 </body>
+<script>
+	function tipClick(id, tip){
+		location.assign("rest_type_korisnik?id="+id+"&tip="+tip);
+	}
+	
+	function deleteClick(id){
+		location.assign("rest_delete_korisnik?id="+id);
+	}
+</script>
 </html>

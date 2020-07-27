@@ -15,7 +15,13 @@
 	List<Film> fList;
 %>   
 <%		
-	fList = FilmRepository.findAll();
+	if(request.getParameter("trazi")!=null) {
+		String trazi = request.getParameter("trazi");
+		fList = FilmRepository.findByNaziv(trazi.trim());
+	} else {
+		
+		fList = FilmRepository.findAll();
+	}
 %>
 
 <!DOCTYPE html>
@@ -24,6 +30,7 @@
 	<meta charset="UTF-8">
 	<title>EVOTIFILM</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-3.5.1.slim.min.js"></script>
 	<script src="js/popper.min.js"></script>
@@ -55,8 +62,8 @@
 				
 		 	</div>
 			 <div class="col-4">
-			 	<form class="form-inline my-2 my-lg-0 d-flex justify-content-center filter" action="">
-				      <input class="form-control mr-sm-2" type="text" placeholder="Traži film">
+			 	<form class="form-inline my-2 my-lg-0 d-flex justify-content-center filter" action="page_home.jsp" method="get">
+				      <input class="form-control mr-sm-2" type="text" name="trazi" placeholder="Traži film">
 				      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Traži</button>
 			    </form>
 			 </div>
@@ -83,8 +90,8 @@
 				<th>Godina</th>
 				<th>Žanrovi</th>
 				<th>Kratak opis</th>
-				<th>Ocena</th>
-				<% if(admin){ %> <th>Obriši</th> <% } %>
+				<th class="text-center">Ocena</th>
+				<% if(admin){ %> <th class="text-center">Obriši</th> <% } %>
 			</tr>
 		</thead>
 		<tbody>
@@ -95,7 +102,7 @@
 			%>
 			<tr onclick="filmClick(<%=f.getId()%>)">
  				<td style="width: 200px;"><%= f.getNaziv() %></td>
-				<td style="text-align: center;"><%= f.getGodina() %></td>
+				<td class="text-center"><%= f.getGodina() %></td>
 				<td><%
 					Set<Zanr> zanrovi = f.getZanrovi();
 					for(Zanr z: zanrovi){
@@ -104,9 +111,11 @@
 					}
 				%></td>
 				<td><%= f.getKratakOpis() %></td>
-				<td style="text-align: center;"><%= f.getOcena() %></td>
+				<td class="text-center"><%= f.getOcena() %></td>
 				<% if(admin){ %> 
-				<td style="text-align: center;"><a href="rest_delete_film.jsp?id=<%=f.getId()%>" style="color: red;">X</a></td><% } %>
+				<td class="text-center">
+					<i class="far fa-trash-alt text-danger align-self-center" onclick="deleteFilmClick(<%=f.getId()%>)" ></i>
+				</td><% } %>
 			</tr>
 			<% 	
 					}
@@ -124,6 +133,9 @@
 	}
 	function dodajFilmClick(id){
 		location.assign("page_film_detalji.jsp?id=-1");
+	}
+	function deleteFilmClick(id){
+		location.assign("rest_delete_film.jsp?id="+id);
 	}
 	
 </script>

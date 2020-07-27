@@ -40,7 +40,7 @@ public class KorisnikTypeServlet extends HttpServlet {
 			response.sendRedirect("page_login.jsp");
 			return;
 		}
-		if(session.getAttribute("tip") != "admin") {
+		if(!session.getAttribute("tip").equals("admin")) {
 			response.sendRedirect("page_login.jsp");
 			return;
 		}

@@ -1,7 +1,9 @@
 package evotifilm.chat;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -30,6 +32,7 @@ public class ChatEndpoint {
         Message message = new Message();
         message.setFrom(username);
         message.setContent("Priključio se četu!");
+        message.setUsersList(getUsersList());
         broadcast(message);
     }
     
@@ -42,9 +45,12 @@ public class ChatEndpoint {
     @OnClose
     public void onClose(Session session) throws IOException, EncodeException {
         chatEndpoints.remove(this);
+        
         Message message = new Message();
         message.setFrom(users.get(session.getId()));
         message.setContent("Napustio čet.");
+        users.remove(session.getId());
+        message.setUsersList(getUsersList());
         broadcast(message);
     }
     
@@ -64,5 +70,15 @@ public class ChatEndpoint {
                 }
             }
         });
+    }
+    
+    private static String[] getUsersList() {
+    	List<String> list = new ArrayList<String>();
+    	users.values().forEach( username -> {
+    		list.add(username);
+    	});
+    	String[] arr = new String[ list.size() ];
+    	list.toArray(arr);
+    	return arr;
     }
 }

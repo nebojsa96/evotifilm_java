@@ -39,7 +39,7 @@ public class KorisnikDeleteServlet extends HttpServlet {
 			response.sendRedirect("page_login.jsp");
 			return;
 		}
-		if(session.getAttribute("tip") != "admin") {
+		if(!session.getAttribute("tip").equals("admin")) {
 			response.sendRedirect("page_login.jsp");
 			return;
 		}
@@ -50,14 +50,14 @@ public class KorisnikDeleteServlet extends HttpServlet {
 		try {
 			server = (IKorisnikRMI)Naming.lookup("rmi://localhost:1098/KorisnikRMI");
 			if(server.deleteById(kid))
-				session.setAttribute("msg_success", "Korisnik sa id-jem "+kid+" je uspesno obrisan.");
+				session.setAttribute("msg_success", "Korisnik sa id-jem "+kid+" je uspešno obrisan.");
 			else
-				session.setAttribute("msg_error", "Korisnik sa id-jem "+kid+" nije uspesno obrisan.");
+				session.setAttribute("msg_error", "Korisnik sa id-jem "+kid+" nije uspešno obrisan.");
 			response.sendRedirect("page_korisnici.jsp");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			session.setAttribute("msg_error", "Korisnik sa id-jem "+kid+" nije uspesno obrisan.");
+			session.setAttribute("msg_error", "Korisnik sa id-jem "+kid+" nije uspešno obrisan.");
 		}
 
 	}

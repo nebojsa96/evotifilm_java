@@ -19,11 +19,17 @@ td { min-width: 100px; }
 	width: 340px;
 }
 
+
+
+/* PAGE HOME */
 .page-home table {
 	width: 80%;
 	margin:auto;
 }
 
+
+
+/* PAGE FILM DETALJI */
 .page-film-detalji table {
 	width: 80%;
 	margin:auto;
@@ -61,3 +67,22 @@ td { min-width: 100px; }
     opacity: 0.9;
     width: 93%;
 } 
+
+
+/* PAGE CHAT */
+.page-chat .chat-area textarea {
+	width: 100%;
+}
+
+.page-chat .chat-area .input-msg {
+	width: 100%;
+	height: 100%;
+}
+
+.page-chat .chat-area .btn-send {
+	width: 100%;
+}
+
+.page-chat .users-list .toggle-online {
+	width: 100%;
+}

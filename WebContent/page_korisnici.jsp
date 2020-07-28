@@ -101,7 +101,7 @@
 							<%= k.getTip()%>
 						</span>
 					</td>
-					<td class="text-center"><i class="far fa-trash-alt text-danger text-danger" onclick="deleteClick(<%=k.getId()%>)" style="cursor: pointer;"></i></td>
+					<td class="text-center"><i class="far fa-trash-alt text-danger" onclick="deleteClick(<%=k.getId()%>)" style="cursor: pointer;"></i></td>
 				</tr>
 		<%
 				} 

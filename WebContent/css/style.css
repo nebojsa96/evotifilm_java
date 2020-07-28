@@ -19,6 +19,28 @@ td { min-width: 100px; }
 	width: 340px;
 }
 
+.uputstvo {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 26px;
+	float: right;
+}
+.uputstvo:hover {
+	color: red;
+	cursor: pointer;
+}
+
+/* PAGE LOGIN*/
+.page-login .card,
+.page-register .card {
+	width: 280px;
+	margin: auto;
+	margin-top: 100px;
+}
+.page-register .card {
+	width: 400px;
+}
 
 
 /* PAGE HOME */

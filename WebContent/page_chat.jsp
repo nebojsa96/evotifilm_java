@@ -15,6 +15,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>EVOTIFILM</title>
+	<link rel="stylesheet" type="text/css" href="css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-3.5.1.slim.min.js"></script>
@@ -22,6 +23,7 @@
 	<script src="js/bootstrap.min.js"></script>
 </head>
 <body class="page-chat">
+
 	<%@ include file="layout_header.jsp" %> 
 	
 	<p class="msg-err"><%= msgError %>

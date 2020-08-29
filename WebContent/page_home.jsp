@@ -100,9 +100,9 @@
 					for(Film f : fList)
 					{
 			%>
-			<tr onclick="filmClick(<%=f.getId()%>)">
- 				<td style="width: 200px;"><%= f.getNaziv() %></td>
-				<td class="text-center"><%= f.getGodina() %></td>
+			<tr>
+ 				<td style="width: 200px;" onclick="filmClick(<%=f.getId()%>)"><%= f.getNaziv() %></td>
+				<td class="text-center" onclick="filmClick(<%=f.getId()%>)"><%= f.getGodina() %></td>
 				<td><%
 					Set<Zanr> zanrovi = f.getZanrovi();
 					for(Zanr z: zanrovi){
@@ -110,11 +110,11 @@
 						out.print("<br/>");
 					}
 				%></td>
-				<td><%= f.getKratakOpis() %></td>
-				<td class="text-center"><%= f.getOcena() %></td>
+				<td onclick="filmClick(<%=f.getId()%>)"><%= f.getKratakOpis() %></td>
+				<td class="text-center" onclick="filmClick(<%=f.getId()%>)"><%= f.getOcena() %></td>
 				<% if(admin){ %> 
 				<td class="text-center">
-					<i class="far fa-trash-alt text-danger align-self-center" onclick="deleteFilmClick(<%=f.getId()%>)" ></i>
+					<i class="far fa-trash-alt text-danger align-self-center" onclick="deleteFilmClick(<%=f.getId()%>)"></i>
 				</td><% } %>
 			</tr>
 			<% 	
@@ -124,7 +124,6 @@
 		</tbody>
 	
 	</table>
-
 	
 </body>
 <script>

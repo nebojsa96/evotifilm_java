@@ -1,0 +1,7 @@
+- Kreirati mysql bazu sa nazivom: evotifilm.
+- Importovati skriptu evotifilm_export_baze.sql
+- Kopirati direktorijum upload na lokaciju C:/ 
+  ili promeniti upload.loaction putanju u web.xml konfiguraciji. 
+
+Admin nalog za prijavu:
+korisničko ime: admin, lozinka: 12345 

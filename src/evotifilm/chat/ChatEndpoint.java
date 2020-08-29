@@ -31,7 +31,7 @@ public class ChatEndpoint {
 
         Message message = new Message();
         message.setFrom(username);
-        message.setContent("Priključio se četu!");
+        message.setContent("Priključio/la se četu!");
         message.setUsersList(getUsersList());
         broadcast(message);
     }
@@ -48,7 +48,7 @@ public class ChatEndpoint {
         
         Message message = new Message();
         message.setFrom(users.get(session.getId()));
-        message.setContent("Napustio čet.");
+        message.setContent("Napustio/la čet.");
         users.remove(session.getId());
         message.setUsersList(getUsersList());
         broadcast(message);
